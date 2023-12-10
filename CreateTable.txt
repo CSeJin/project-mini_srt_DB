@@ -1,0 +1,188 @@
+/*
+Created: 2023-06-02
+Modified: 2023-06-02
+Model: Oracle 11g Release 2
+Database: Oracle 11g Release 2
+*/
+
+
+-- Create tables section -------------------------------------------------
+
+-- Table grade
+
+CREATE TABLE grade(
+  gid Integer NOT NULL,
+  gname Varchar2(10 ),
+  mincount Integer,
+  maxcount Integer
+)
+/
+
+-- Add keys for table grade
+
+ALTER TABLE grade ADD CONSTRAINT PK_grade PRIMARY KEY (gid)
+/
+
+-- Table customer
+
+CREATE TABLE customer(
+  cid Varchar2(5 ) NOT NULL,
+  cname Varchar2(10 ),
+  cage Integer,
+  ccount Integer,
+  gid Integer NOT NULL
+)
+/
+
+-- Create indexes for table customer
+
+CREATE INDEX IX_Relationship13 ON customer (gid)
+/
+
+-- Add keys for table customer
+
+ALTER TABLE customer ADD CONSTRAINT PK_customer PRIMARY KEY (cid)
+/
+
+-- Table register
+
+CREATE TABLE register(
+  rnum Varchar2(5 ) NOT NULL,
+  rdate Date,
+  ticket Integer,
+  total_price Integer,
+  cid Varchar2(5 ) NOT NULL,
+  classid Varchar2(5 ) NOT NULL
+)
+/
+
+-- Create indexes for table register
+
+CREATE INDEX IX_Relationship10 ON register (cid)
+/
+
+CREATE INDEX IX_Relationship16 ON register (classid)
+/
+
+-- Add keys for table register
+
+ALTER TABLE register ADD CONSTRAINT PK_register PRIMARY KEY (rnum)
+/
+
+-- Table rdetail
+
+CREATE TABLE rdetail(
+  rnum Varchar2(5 ) NOT NULL,
+  tid Varchar2(12 ) NOT NULL,
+  sid Varchar2(5 ) NOT NULL,
+  rd_price Integer,
+  dcid Varchar2(5 ) NOT NULL
+)
+/
+
+-- Create indexes for table rdetail
+
+CREATE INDEX IX_Relationship18 ON rdetail (dcid)
+/
+
+-- Add keys for table rdetail
+
+ALTER TABLE rdetail ADD CONSTRAINT PK_rdetail PRIMARY KEY (rnum,tid,sid)
+/
+
+-- Table train
+
+CREATE TABLE train(
+  tid Varchar2(12 ) NOT NULL,
+  tstart Varchar2(12 ),
+  tarrive Varchar2(12 ),
+  tpoint Varchar2(90 ),
+  dprice Integer
+)
+/
+
+-- Add keys for table train
+
+ALTER TABLE train ADD CONSTRAINT PK_train PRIMARY KEY (tid)
+/
+
+-- Table discount
+
+CREATE TABLE discount(
+  dcid Varchar2(5 ) NOT NULL,
+  dcpercent Float,
+  dcname Varchar2(10 ),
+  minage Integer,
+  maxage Integer
+)
+/
+
+-- Add keys for table discount
+
+ALTER TABLE discount ADD CONSTRAINT PK_discount PRIMARY KEY (dcid)
+/
+
+-- Table seatclass
+
+CREATE TABLE seatclass(
+  classid Varchar2(5 ) NOT NULL,
+  classname Varchar2(5 ),
+  classprice Float
+)
+/
+
+-- Add keys for table seatclass
+
+ALTER TABLE seatclass ADD CONSTRAINT PK_seatclass PRIMARY KEY (classid)
+/
+
+
+-- Table seat
+
+CREATE TABLE seat(
+  sid Varchar2(5 ) NOT NULL,
+  skan Varchar2(5 ),
+  sname Varchar2(10 )
+)
+/
+
+-- Add keys for table seat
+
+ALTER TABLE seat ADD CONSTRAINT PK_seat PRIMARY KEY (sid)
+/
+
+
+-- Create foreign keys (relationships) section ------------------------------------------------- 
+
+ALTER TABLE register ADD CONSTRAINT customeRegister FOREIGN KEY (cid) REFERENCES customer (cid)
+/
+
+
+
+ALTER TABLE customer ADD CONSTRAINT gradeCustomer FOREIGN KEY (gid) REFERENCES grade (gid)
+/
+
+
+
+ALTER TABLE rdetail ADD CONSTRAINT registerRdetail FOREIGN KEY (rnum) REFERENCES register (rnum)
+/
+
+
+
+ALTER TABLE rdetail ADD CONSTRAINT trainRdetail FOREIGN KEY (tid) REFERENCES train (tid)
+/
+
+
+
+ALTER TABLE register ADD CONSTRAINT seatclassRegister FOREIGN KEY (classid) REFERENCES seatclass (classid)
+/
+
+
+
+ALTER TABLE rdetail ADD CONSTRAINT seatRdetail FOREIGN KEY (sid) REFERENCES seat (sid)
+/
+
+
+
+
+

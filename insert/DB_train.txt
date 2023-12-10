@@ -1,0 +1,19 @@
+insert into train values ('SRT_491', '수서', '동탄', '', 10000);
+insert into train values ('SRT_436', '수서', '목포', '동탄, 평택지제, 천안아산, 오송, 공주, 익산, 정읍, 광주송정, 나주', 100000);
+insert into train values ('SRT_522', '천안아산', '익산', '오송, 공주', 30000);
+insert into train values ('SRT_505', '오송', '정읍','공주, 익산', 30000);
+insert into train values ('SRT_206', '공주', '수서','오송, 천안아산, 평택지제, 동탄', 50000);
+insert into train values ('SRT_202', '나주', '목포', '', 10000);
+insert into train values ('SRT_544', '평택지제', '광주송정', '천안아산, 오송, 공주, 익산, 정읍', 60000);
+insert into train values ('SRT_438', '목포', '오송', '나주, 광주송정, 정읍, 익산, 공주', 60000);
+insert into train values ('SRT_405', '동탄', '나주','평택지제, 천안아산, 오송, 공주, 익산, 정읍, 광주송정', 90000);
+insert into train values ('SRT_475', '수서', '광주송정', '동탄, 평택지제, 천안아산, 오송, 공주, 익산, 정읍', 80000);
+insert into train values ('SRT_413', '정읍', '익산', '', 10000);
+insert into train values ('SRT_494', '광주송정', '목포', '나주', 20000);
+insert into train values ('SRT_503', '공주', '익산', '', 10000);
+insert into train values ('SRT_516', '정읍', '천안아산', '익산, 공주, 오송', 40000);
+insert into train values ('SRT_101', '평택지제', '수서', '동탄', 20000);
+insert into train values ('SRT_486', '오송', '공주', '', 10000);
+insert into train values ('SRT_131', '목포', '천안아산', '나주, 정읍, 공주, 오송', 70000);
+insert into train values ('SRT_037', '천안아산', '평택지제', '', 10000);
+

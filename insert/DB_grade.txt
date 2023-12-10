@@ -1,0 +1,3 @@
+insert into grade values('1','silver',0,30);
+insert into grade values('2','gold',31,60);
+insert into grade values('3','vip',61,1000);

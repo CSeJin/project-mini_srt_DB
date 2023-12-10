@@ -1,0 +1,138 @@
+-- 1. 가장 많이 사람들이 탄 열차의 열차번호와 도착지를 조회하시오.
+
+-- 승객이 가장 많은 열차 조회
+select tid, count(*) from rdetail
+group by tid
+having count(*) >=all (select count(*) from rdetail group by tid) ;
+--승객이 가장 많은 열차의 도착지 조회
+select distinct t.tid, t.tarrive
+from train t, rdetail rd
+where t.tid = rd.tid
+and t.tid = (select tid from rdetail
+	group by tid
+	having count(*) >=all (select count(*) from rdetail group by tid)
+);
+
+
+-- 2. 열차 'SRT_131'의 총 승객 수를 구하시오.
+select count(*) from rdetail
+where tid='SRT_131';
+
+
+-- 3. 오송 지역을 도착/경유하는 열차번호를 조회하시오.
+select tid from train
+where tarrive = '오송'
+or tpoint like '%오송%';
+
+
+-- 4. '송태섭' 회원의 예약 리스트를 조회하시오.
+select r.* from customer c, register r
+where c.cid = r.cid
+and c.cname = '송태섭';
+
+
+-- 5. 오늘 이후 열차를 이용하는 회원의 예약번호, 이름, 예약일자, 예약매수를 조회하시오.
+select r.rnum, c.cname, r.rdate, r.ticket
+from customer c, register r
+where c.cid = r.cid
+and to_char(r.rdate, 'yy/mm/dd') > to_char(sysdate, 'yy/mm/dd');
+
+
+-- 6. 예약상세리스트 중 각 연령대별 평균 이용 금액을 조회하시오.
+select dc.dcname 연령대, round(avg(rd.rd_price),0) 평균이용금액
+from rdetail rd, discount dc
+where rd.dcid = dc.dcid
+group by dc.dcname;
+
+
+-- 7. 열차표를 3매 이상 예매한 회원 중 총금액이 100000원 이상인 예약리스트를 조회하시오.
+select * from register where ticket>=3 and total_price>=100000;
+
+
+--  8. VIP 회원의 좌석을 특실로 변경하시오.
+
+--vip 회원의 예약 리스트
+select * from register 
+where cid in (select cid from customer
+	where gid= (select gid from grade where gname='vip')
+);
+--vip 회원의 좌석을 특실로 변경
+update register set classid='777'
+where cid in (select cid from customer
+	where gid= (select gid from grade where gname='vip')
+);
+-- 특실 변경 결과 조회
+select r.cid, r.classid, g.gname from register r, grade g, customer c
+where r.cid = c.cid
+and c.gid = g.gid
+and r.cid in (select cid from customer 
+		where gid = (select gid from grade where gname='vip')
+);
+
+
+--  9. 7~8월에 예약하는 19~24세 회원의 예매 가격을 40% 할인하시오. 
+
+--7~8월에 예약하는 19~24세 회원의 예매리스트 조회
+select r.*, c.cage from register r, customer c
+where r.cid = c.cid
+and substr(to_char(r.rdate, 'yy/mm/dd'),4,2) in ('07','08')
+and c.cid in (select cid from customer
+	where cage >=19 and cage <=24);
+-- 가격 40%할인
+update register set total_price = total_price*(1-0.4)
+where cid in (select c.cid from register r, customer c
+		where r.cid = c.cid
+		and substr(to_char(r.rdate, 'yy/mm/dd'),4,2) in ('07','08')
+		and c.cid in (select cid from customer
+			where cage >=19 and cage <=24)
+);
+--가격 할인 여부 확인
+select r.*, c.cage from register r, customer c
+where r.cid = c.cid
+and substr(to_char(r.rdate, 'yy/mm/dd'),4,2) in ('07','08')
+and c.cid in (select cid from customer
+	where cage >=19 and cage <=24);
+
+
+
+-- 10. 예약 상세 테이블에서 어린이 회원의 예약 리스트를 조회하시오. 
+select rd.* from rdetail rd, discount dc
+where rd.dcid = dc.dcid
+and dc.dcid=(select dcid from discount where dcname='child');
+
+
+
+-- 11. 열차 리스트 중 예약 내역이 없는 열차를 조회한 뒤 열차 운행을 취소하시오.
+
+-- 조회
+select tid from train
+where tid not in (select tid from rdetail);
+--삭제
+delete from train t
+where t.tid=(select tid from train
+	where tid not in (select tid from rdetail)
+);
+--확인
+select tid from train
+where tid not in (select tid from rdetail);
+
+
+
+--12. 회원등급에서 등급코드(4, vvip, 100, 10000)를 추가하고 이용횟수가 100회 이상인 회원의 등급을 vvip로 변경하시오.
+
+--vip의 maxcount를 1000에서 99로 변경
+update grade set maxcount=99 where gname='vip';
+select * from grade;
+--vvip 레코드 추가
+insert into grade values(4, 'vvip', 100, 10000);
+select * from grade;
+
+--이용횟수가 100 이상이 회원의 등급을 vvip로 변경
+--이용횟수가 100 이상이 회원 조회
+select * from customer where ccount >= 100;
+-- 등급 변경
+update customer set gid=(select gid from grade where gname='vvip')
+where ccount >= 100;
+-- 등급 변경 확인
+select * from customer where ccount >= 100;
+

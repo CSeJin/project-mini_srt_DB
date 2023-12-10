@@ -1,0 +1,3 @@
+insert into discount values ('dc1', 0.2, 'child', 0, 19);
+insert into discount values ('dc2', 0, 'adult', 20, 64);
+insert into discount values ('dc3', 0.1, 'elder', 65, 110);
