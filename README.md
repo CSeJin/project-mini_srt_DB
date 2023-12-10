@@ -1,8 +1,11 @@
 # project-mini_srt_DB
-srt 노선을 간소화하여 예매 DB 구축
+
+<p align="center">
+  <img width="968" alt="erd_kr" src="https://github.com/CSeJin/project-mini_srt_DB/assets/127668461/0cb1b4f8-73a2-44eb-bd83-e35d4b77e9fb" width="500">
+</p>
 
 ## 🚄 프로젝트 소개
-
+srt 노선을 간소화하여 예매 DB 구축
 
 <br>
 
