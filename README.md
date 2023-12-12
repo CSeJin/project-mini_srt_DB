@@ -17,7 +17,7 @@ srt 노선을 간소화하여 예매 DB 구축
 >
 > **역할:** erd 설계 및 데이터 제작
 >
-> **프로젝트 기간:** 2023.06.02 ~ 2023.06.14
+> **프로젝트 기간:** 2023.06.02 ~ 2023.06.16
 >
 > [ppt 보기](https://drive.google.com/file/d/1RRGKuvtyVN2hu99H8Bdg0OiSshydcVvG/view?usp=sharing)
 <br>
